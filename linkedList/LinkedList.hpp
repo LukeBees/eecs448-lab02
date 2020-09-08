@@ -105,14 +105,54 @@ void LinkedList<T>::addFront(T value)
 template <typename T>
 bool LinkedList<T>::removeBack()
 {
-	Node<T>* lastNode = nullptr;
-	Node<T>* secondintoLast = nullptr;
+	Node<T>* lastNode = nullptr; //final node in list, to be removed
+	Node<T>* secondintoLast = nullptr; //second to final node in list, to replace end
 	bool isRemoved = false;
 
-	/** TODO 
-		Fix this method
-	*/
+	//Fixed
 
+	//if list is not empty, search; otherwise, return false
+	if(m_front != nullptr)
+	{
+		//if m_front is the only node, remove it; no need to increment
+		if(m_front -> getNext() == nullptr)
+		{
+			//delete m_front
+			delete m_front;
+			m_front = nullptr;
+			isRemoved = true;
+		}
+		else
+		{
+			//assign lastNode to second node and secondintoLast to front
+			lastNode = m_front->getNext();
+			secondintoLast = m_front;
+
+			//while last node is not removed
+			while(!isRemoved)
+			{
+				//if lastNode is final node in list
+				if(lastNode -> getNext() == nullptr)
+				{
+					//delete lastNode
+					delete lastNode;
+					lastNode = nullptr;
+					
+					//uncouple secondintoLast from lastNode
+					secondintoLast -> setNext(nullptr);
+					isRemoved = true;
+					//reduce size
+					m_size--;
+				}
+				else
+				{
+					//if not final element, pass through list;
+					secondintoLast = lastNode;
+					lastNode = lastNode -> getNext();
+				}
+			}
+		}
+	}
 	return(isRemoved);
 }	
 
